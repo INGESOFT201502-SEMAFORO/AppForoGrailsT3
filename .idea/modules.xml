@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/AppForo.iml" filepath="$PROJECT_DIR$/AppForo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AppForoGrails.iml" filepath="$PROJECT_DIR$/AppForoGrails.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AppForoGrails-grailsPlugins.iml" filepath="$PROJECT_DIR$/AppForoGrails-grailsPlugins.iml" />
     </modules>
   </component>
 </project>
