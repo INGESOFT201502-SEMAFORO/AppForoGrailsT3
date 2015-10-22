@@ -1,5 +1,7 @@
 package appforo
 import java.util.Date;
+
+import groovy.json.*
 class Forum {	
 	
 	String name
@@ -16,7 +18,9 @@ class Forum {
 	}
 	//if (dateCreated < fecha) {dateCreated = null}
 	
-		   ;
+	String toString() {
+		return "Name: " + name +" Date Created: " + dateCreated +" Category: " + category
+	}
 	   
 	   	
 }
