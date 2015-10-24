@@ -82,11 +82,12 @@ class AdminSpec extends Specification {
         admin.errors.fieldError.code == 'range.toosmall'
 
         when: 'el atributo rating es mayor a 101.0'
-        admin = new Admin(name: 'juan', lastname: 'arias', age: 22, username: 'jpariasc',
-                password: 'aA1aaA1a', level: 1, rating: 101.0)
+        //admin = new Admin(name: 'juan', lastname: 'arias', age: 22, username: 'jpariasc',
+        //        password: 'aA1aaA1a', level: 1, rating: 101.0)
+        admin.setRating(101.0)
         then: 'la validacion debe fallar'
         !admin.validate()
-        admin.hasErrors()
+        admin.errors.hasFieldErrors ('rating')
         admin.errors.fieldError.code == 'range.toobig'
     }
 }

@@ -13,6 +13,8 @@ class Post {
     Date currentDay = new Date()
     boolean itsAllowed
 
+    static belongsTo = [regular:Regular]
+
     static constraints = {
         topic(blank:false, unique:false, minSize: 3, maxSize: 50)
         dateCreated(blank:false, min: currentDay)

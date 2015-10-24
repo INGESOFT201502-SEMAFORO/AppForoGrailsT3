@@ -43,6 +43,9 @@
 
 ## Directory-based project format:
 .idea/
+.idea/misc.xml
+.idea/workspace.xml
+AppForoGrails.iml
 # if you remove the above rule, at least ignore the following:
 
 # User-specific stuff:
