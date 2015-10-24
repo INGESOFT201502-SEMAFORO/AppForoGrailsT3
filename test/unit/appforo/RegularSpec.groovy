@@ -15,51 +15,97 @@ class RegularSpec extends Specification {
     def cleanup() {
     }
 
-    void "test nullable"() {
-        when:
-        def regular = new Regular()
-        then:
-        assertFalse regular.validate()
-    }
-    void "test nullable postViews"() {
-        when:
-        def regular = new Regular(strikesNumber: 2, starsNumber: 2)
-        then:
-        assertFalse regular.validate()
+    void "Test de restricciones no nulas"(){
+        when: 'se crea un usuario con todas las restricciones, y limites inferiores'
+        def regular = new Regular(name: 'juan', lastname: 'arias', age: 22, username: 'jpariasc',
+                                    password: 'aA1aaA1a', postViews: 0, strikesNumber: 0, starsNumber: 0)
+        then: 'la validacion debe pasar'
+        regular.validate()
+        !regular.hasErrors()
+        regular.errors.errorCount == 0
+
+        when: 'se crea un usuario con todas las restricciones, y limites superiores'
+        regular = new Regular(name: 'juan', lastname: 'arias', age: 22, username: 'jpariasc',
+                password: 'aA1aaA1a', postViews: 1, strikesNumber: 3, starsNumber: 5)
+        then: 'la validacion debe pasar'
+        regular.validate()
+        !regular.hasErrors()
+        regular.errors.errorCount == 0
     }
 
-    void "test nullable strikesNumber"() {
-        when:
-        def regular = new Regular(postViews: 2, starsNumber: 2)
-        then:
-        assertFalse regular.validate()
+    void "test postViews nulo"(){
+        when: 'el atributo postViews es null'
+        def regular = new Regular(name: 'juan', lastname: 'arias', age: 22, username: 'jpariasc',
+                password: 'aA1aaA1a', postViews: null, strikesNumber: 0, starsNumber: 0)
+        then: 'la validacion debe fallar'
+        !regular.validate()
+        regular.hasErrors()
+        regular.errors.errorCount == 1
     }
 
-    void "test nullable starsNumber"() {
-        when:
-        def regular = new Regular(strikesNumber: 2, postViews: 2)
-        then:
-        assertFalse regular.validate()
+    void "test strikesNumber nulo"(){
+        when: 'el atributo strikesNumber es null'
+        def regular = new Regular(name: 'juan', lastname: 'arias', age: 22, username: 'jpariasc',
+                password: 'aA1aaA1a', postViews: 0, strikesNumber: null, starsNumber: 0)
+        then: 'la validacion debe fallar'
+        !regular.validate()
+        regular.hasErrors()
+        regular.errors.errorCount == 1
+    }
+
+    void "test starsNumber nulo"(){
+        when: 'el atributo starsNumber es null'
+        def regular = new Regular(name: 'juan', lastname: 'arias', age: 22, username: 'jpariasc',
+                password: 'aA1aaA1a', postViews: 0, strikesNumber: 0, starsNumber: null)
+        then: 'la validacion debe fallar'
+        !regular.validate()
+        regular.hasErrors()
+        regular.errors.errorCount == 1
     }
 
     void "test postViews range"() {
-        when:
-        def regular = new Regular()
-        then:
-        assertFalse regular.validate(postViews: -1, strikesNumber: 2, starsNumber: 2)
+        when: 'el atributo postViews es menor a 0'
+        def regular = new Regular(name: 'juan', lastname: 'arias', age: 22, username: 'jpariasc',
+                password: 'aA1aaA1a', postViews: -1, strikesNumber: 0, starsNumber: 0)
+        then: 'la validacion debe fallar'
+        !regular.validate()
+        regular.hasErrors()
+        regular.errors.errorCount == 1
     }
 
     void "test strikeNumber range"() {
-        when:
-        def regular = new Regular()
-        then:
-        assertFalse regular.validate(postViews: 2, strikesNumber: 4, starsNumber: 2)
+        when: 'el atributo StrikeNumber es menor a 0'
+        def regular = new Regular(name: 'juan', lastname: 'arias', age: 22, username: 'jpariasc',
+                password: 'aA1aaA1a', postViews: 0, strikesNumber: -1, starsNumber: 0)
+        then: 'la validacion debe fallar'
+        !regular.validate()
+        regular.hasErrors()
+        println regular.errors.fieldError.code == 'range.toosmall'
+
+        when: 'el atributo StrikeNumber es mayor a 3'
+        regular = new Regular(name: 'juan', lastname: 'arias', age: 22, username: 'jpariasc',
+                password: 'aA1aaA1a', postViews: 0, strikesNumber: 4, starsNumber: 0)
+        then: 'la validacion debe fallar'
+        !regular.validate()
+        regular.hasErrors()
+        regular.errors.fieldError.code == 'range.toobig'
     }
 
     void "test starsNumber range"() {
-        when:
-        def regular = new Regular()
-        then:
-        assertFalse regular.validate(postViews: 2, strikesNumber: 4, starsNumber: 7)
+        when: 'el atributo starsNumber es menor a 0'
+        def regular = new Regular(name: 'juan', lastname: 'arias', age: 22, username: 'jpariasc',
+                password: 'aA1aaA1a', postViews: 0, strikesNumber: 0, starsNumber: -1)
+        then: 'la validacion debe fallar'
+        !regular.validate()
+        regular.hasErrors()
+        regular.errors.fieldError.code == 'range.toosmall'
+
+        when: 'el atributo StrikeNumber es mayor a 5'
+        regular = new Regular(name: 'juan', lastname: 'arias', age: 22, username: 'jpariasc',
+                password: 'aA1aaA1a', postViews: 0, strikesNumber: 0, starsNumber: 6)
+        then: 'la validacion debe fallar'
+        !regular.validate()
+        regular.hasErrors()
+        regular.errors.fieldError.code == 'range.toobig'
     }
 }
