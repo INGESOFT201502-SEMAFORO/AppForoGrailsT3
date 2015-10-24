@@ -80,7 +80,7 @@ class RegularSpec extends Specification {
         then: 'la validacion debe fallar'
         !regular.validate()
         regular.hasErrors()
-        println regular.errors.fieldError.code == 'range.toosmall'
+        regular.errors.fieldError.code == 'range.toosmall'
 
         when: 'el atributo StrikeNumber es mayor a 3'
         regular = new Regular(name: 'juan', lastname: 'arias', age: 22, username: 'jpariasc',
